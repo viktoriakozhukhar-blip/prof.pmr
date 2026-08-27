@@ -7,6 +7,7 @@
 <title>PROF-ПМР — Профориентационный навигатор</title>
 
 <style>
+
 * {
     box-sizing: border-box;
 }
@@ -23,7 +24,7 @@ header {
     position: sticky;
     top: 0;
     background: white;
-    z-index: 10;
+    z-index: 100;
     border-bottom: 1px solid #e7e8ef;
 }
 
@@ -104,6 +105,8 @@ h1 {
     text-decoration: none;
     font-weight: bold;
     margin: 0 8px 8px 0;
+    border: none;
+    cursor: pointer;
 }
 
 .primary {
@@ -119,7 +122,8 @@ h1 {
 
 .hero-card,
 .card,
-.result {
+.result,
+.form-card {
     background: white;
     border: 1px solid #e7e8ef;
     border-radius: 22px;
@@ -201,6 +205,7 @@ h2 {
     width: 0;
     background: #7778ed;
     border-radius: 20px;
+    transition: width .3s;
 }
 
 .result {
@@ -214,7 +219,7 @@ h2 {
 }
 
 .percent-row {
-    margin: 13px 0;
+    margin: 15px 0;
 }
 
 .percent-top {
@@ -224,15 +229,17 @@ h2 {
 }
 
 .track {
-    height: 10px;
+    height: 11px;
     background: #ececf2;
     border-radius: 20px;
     overflow: hidden;
+    margin-top: 6px;
 }
 
 .fill {
     height: 100%;
     background: #5b5ce2;
+    transition: width .5s;
 }
 
 .tag {
@@ -287,6 +294,38 @@ th {
     margin-top: 18px;
 }
 
+.form-group {
+    margin-bottom: 18px;
+}
+
+.form-group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 7px;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 13px;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    font-size: 16px;
+    background: white;
+}
+
+#startTest {
+    margin-top: 10px;
+}
+
+.success {
+    padding: 15px;
+    background: #e9f8ed;
+    color: #247238;
+    border-radius: 12px;
+    margin-top: 15px;
+}
+
 footer {
     text-align: center;
     padding: 35px;
@@ -311,11 +350,14 @@ footer {
     h1 {
         letter-spacing: -2px;
     }
+
 }
+
 </style>
 </head>
 
 <body>
+
 
 <header>
 
@@ -335,7 +377,9 @@ PROF<span>-ПМР</span>
 
 </header>
 
+
 <main>
+
 
 <!-- ГЛАВНЫЙ ЭКРАН -->
 
@@ -354,8 +398,9 @@ PROF<span>-ПМР</span>
 
 <p class="lead">
 
-Профориентационный навигатор для современной молодежи Приднестровья:
-интересы, профессии, образование и перспективы рынка труда.
+Профориентационный навигатор для современной молодежи
+Приднестровья: интересы, профессии, образование
+и перспективы рынка труда.
 
 </p>
 
@@ -396,30 +441,126 @@ PROF<span>-ПМР</span>
 </section>
 
 
-<!-- ТЕСТ -->
+<!-- ДАННЫЕ УЧАСТНИКА -->
 
 <section id="test">
 
 <h2>
-🧠 Профориентационный тест
+📝 Участие в исследовании
 </h2>
 
 <p class="sub">
 
-8 вопросов. В конце ты увидишь процентное соотношение
-четырёх направлений и подходящие профессии.
+Перед прохождением теста укажи несколько общих данных.
+Они нужны для статистической части исследования.
 
 </p>
 
 
-<div class="test">
+<div class="form-card">
 
-<div class="progress">
-<div class="bar" id="bar"></div>
+<div class="form-group">
+
+<label>
+Твой город
+</label>
+
+<select id="city">
+
+<option value="">
+Выбери город
+</option>
+
+<option>
+Тирасполь
+</option>
+
+<option>
+Бендеры
+</option>
+
+<option>
+Днестровск
+</option>
+
+<option>
+Рыбница
+</option>
+
+<option>
+Дубоссары
+</option>
+
+<option>
+Слободзея
+</option>
+
+<option>
+Григориополь
+</option>
+
+<option>
+Каменка
+</option>
+
+<option>
+Другой
+</option>
+
+</select>
+
 </div>
 
 
-<!-- ВОПРОС 1 -->
+<div class="form-group">
+
+<label>
+Возраст
+</label>
+
+<input
+id="age"
+type="number"
+min="12"
+max="30"
+placeholder="Например, 16"
+>
+
+
+</div>
+
+
+<button
+class="btn primary"
+id="startTest"
+onclick="startTest()">
+
+Начать тест →
+
+</button>
+
+</div>
+
+
+<!-- ТЕСТ -->
+
+<div
+class="test"
+id="quiz"
+style="display:none;margin-top:25px;"
+>
+
+<div class="progress">
+
+<div
+class="bar"
+id="bar">
+</div>
+
+</div>
+
+
+<!-- 1 -->
 
 <div class="q active">
 
@@ -431,19 +572,19 @@ PROF<span>-ПМР</span>
 
 <div class="answers">
 
-<button class="answer" onclick="ans('tech')">
+<button class="answer" onclick="answer('tech')">
 💻 Компьютеры и технологии
 </button>
 
-<button class="answer" onclick="ans('people')">
+<button class="answer" onclick="answer('people')">
 🤝 Общение и помощь людям
 </button>
 
-<button class="answer" onclick="ans('creative')">
+<button class="answer" onclick="answer('creative')">
 🎨 Творчество и новые идеи
 </button>
 
-<button class="answer" onclick="ans('practical')">
+<button class="answer" onclick="answer('practical')">
 🔧 Работа руками и конкретный результат
 </button>
 
@@ -452,7 +593,7 @@ PROF<span>-ПМР</span>
 </div>
 
 
-<!-- ВОПРОС 2 -->
+<!-- 2 -->
 
 <div class="q">
 
@@ -464,19 +605,19 @@ PROF<span>-ПМР</span>
 
 <div class="answers">
 
-<button class="answer" onclick="ans('tech')">
+<button class="answer" onclick="answer('tech')">
 🔍 Найти ошибку в системе
 </button>
 
-<button class="answer" onclick="ans('people')">
+<button class="answer" onclick="answer('people')">
 🗣️ Объяснить человеку сложную вещь
 </button>
 
-<button class="answer" onclick="ans('creative')">
+<button class="answer" onclick="answer('creative')">
 💡 Придумать идею
 </button>
 
-<button class="answer" onclick="ans('practical')">
+<button class="answer" onclick="answer('practical')">
 🔨 Починить или собрать что-то
 </button>
 
@@ -485,7 +626,7 @@ PROF<span>-ПМР</span>
 </div>
 
 
-<!-- ВОПРОС 3 -->
+<!-- 3 -->
 
 <div class="q">
 
@@ -497,19 +638,19 @@ PROF<span>-ПМР</span>
 
 <div class="answers">
 
-<button class="answer" onclick="ans('tech')">
+<button class="answer" onclick="answer('tech')">
 🚀 Новые технологии
 </button>
 
-<button class="answer" onclick="ans('people')">
+<button class="answer" onclick="answer('people')">
 ❤️ Работа с людьми
 </button>
 
-<button class="answer" onclick="ans('creative')">
+<button class="answer" onclick="answer('creative')">
 ✨ Свобода творчества
 </button>
 
-<button class="answer" onclick="ans('practical')">
+<button class="answer" onclick="answer('practical')">
 ⚙️ Практический результат
 </button>
 
@@ -518,7 +659,7 @@ PROF<span>-ПМР</span>
 </div>
 
 
-<!-- ВОПРОС 4 -->
+<!-- 4 -->
 
 <div class="q">
 
@@ -530,19 +671,19 @@ PROF<span>-ПМР</span>
 
 <div class="answers">
 
-<button class="answer" onclick="ans('tech')">
+<button class="answer" onclick="answer('tech')">
 📊 Анализирую факты
 </button>
 
-<button class="answer" onclick="ans('people')">
+<button class="answer" onclick="answer('people')">
 👥 Советуюсь с людьми
 </button>
 
-<button class="answer" onclick="ans('creative')">
+<button class="answer" onclick="answer('creative')">
 🌟 Доверяю интуиции
 </button>
 
-<button class="answer" onclick="ans('practical')">
+<button class="answer" onclick="answer('practical')">
 ✅ Выбираю практичный вариант
 </button>
 
@@ -551,7 +692,7 @@ PROF<span>-ПМР</span>
 </div>
 
 
-<!-- ВОПРОС 5 -->
+<!-- 5 -->
 
 <div class="q">
 
@@ -563,19 +704,19 @@ PROF<span>-ПМР</span>
 
 <div class="answers">
 
-<button class="answer" onclick="ans('tech')">
+<button class="answer" onclick="answer('tech')">
 🖥️ За компьютером
 </button>
 
-<button class="answer" onclick="ans('people')">
+<button class="answer" onclick="answer('people')">
 👨‍👩‍👧 В коллективе
 </button>
 
-<button class="answer" onclick="ans('creative')">
+<button class="answer" onclick="answer('creative')">
 🎨 В творческой среде
 </button>
 
-<button class="answer" onclick="ans('practical')">
+<button class="answer" onclick="answer('practical')">
 🏗️ На объекте или производстве
 </button>
 
@@ -584,7 +725,7 @@ PROF<span>-ПМР</span>
 </div>
 
 
-<!-- ВОПРОС 6 -->
+<!-- 6 -->
 
 <div class="q">
 
@@ -596,19 +737,19 @@ PROF<span>-ПМР</span>
 
 <div class="answers">
 
-<button class="answer" onclick="ans('tech')">
+<button class="answer" onclick="answer('tech')">
 🧠 Логика
 </button>
 
-<button class="answer" onclick="ans('people')">
+<button class="answer" onclick="answer('people')">
 💬 Общение
 </button>
 
-<button class="answer" onclick="ans('creative')">
+<button class="answer" onclick="answer('creative')">
 🎭 Воображение
 </button>
 
-<button class="answer" onclick="ans('practical')">
+<button class="answer" onclick="answer('practical')">
 🛠️ Практические действия
 </button>
 
@@ -617,7 +758,7 @@ PROF<span>-ПМР</span>
 </div>
 
 
-<!-- ВОПРОС 7 -->
+<!-- 7 -->
 
 <div class="q">
 
@@ -629,19 +770,19 @@ PROF<span>-ПМР</span>
 
 <div class="answers">
 
-<button class="answer" onclick="ans('tech')">
+<button class="answer" onclick="answer('tech')">
 🔥 Хочу постоянно изучать
 </button>
 
-<button class="answer" onclick="ans('people')">
+<button class="answer" onclick="answer('people')">
 👍 Использую, если помогают людям
 </button>
 
-<button class="answer" onclick="ans('creative')">
+<button class="answer" onclick="answer('creative')">
 🎨 Использую для творчества
 </button>
 
-<button class="answer" onclick="ans('practical')">
+<button class="answer" onclick="answer('practical')">
 ⚙️ Использую, если упрощают работу
 </button>
 
@@ -650,7 +791,7 @@ PROF<span>-ПМР</span>
 </div>
 
 
-<!-- ВОПРОС 8 -->
+<!-- 8 -->
 
 <div class="q">
 
@@ -662,19 +803,19 @@ PROF<span>-ПМР</span>
 
 <div class="answers">
 
-<button class="answer" onclick="ans('tech')">
+<button class="answer" onclick="answer('tech')">
 💻 Создать работающую систему
 </button>
 
-<button class="answer" onclick="ans('people')">
+<button class="answer" onclick="answer('people')">
 ❤️ Понять, что я кому-то помог
 </button>
 
-<button class="answer" onclick="ans('creative')">
+<button class="answer" onclick="answer('creative')">
 🎨 Воплотить свою идею
 </button>
 
-<button class="answer" onclick="ans('practical')">
+<button class="answer" onclick="answer('practical')">
 🔧 Сделать вещь, которая работает
 </button>
 
@@ -683,7 +824,10 @@ PROF<span>-ПМР</span>
 </div>
 
 
-<div class="result" id="result"></div>
+<div
+class="result"
+id="result">
+</div>
 
 </div>
 
@@ -732,7 +876,8 @@ IT-поддержка, аналитик.
 
 <p>
 Педагог, медицинский специалист, менеджер,
-специалист по работе с клиентами, оператор колл-центра.
+специалист по работе с клиентами,
+оператор колл-центра.
 </p>
 
 </div>
@@ -763,8 +908,9 @@ IT-поддержка, аналитик.
 </h3>
 
 <p>
-Инженер, энергетик, электрик, специалист
-по автоматизации и техническому обслуживанию.
+Инженер, энергетик, электрик,
+специалист по автоматизации
+и техническому обслуживанию.
 </p>
 
 </div>
@@ -779,8 +925,8 @@ IT-поддержка, аналитик.
 </h3>
 
 <p>
-Строитель, мастер, электромонтажник и другие
-квалифицированные специалисты.
+Строитель, мастер, электромонтажник
+и другие квалифицированные специалисты.
 </p>
 
 </div>
@@ -817,8 +963,9 @@ IT-поддержка, аналитик.
 
 <p class="sub">
 
-Примеры учебных организаций. Перед поступлением
-проверяй актуальные программы и правила приёма.
+Примеры учебных организаций.
+Перед поступлением проверяй актуальные
+программы и правила приёма.
 
 </p>
 
@@ -837,8 +984,9 @@ IT-поддержка, аналитик.
 </small>
 
 <p>
-IT, инженерия, экономика, педагогика, психология,
-медицина, естественные науки, право и другие направления.
+IT, инженерия, экономика, педагогика,
+психология, медицина, естественные науки,
+право и другие направления.
 </p>
 
 </div>
@@ -898,40 +1046,6 @@ IT, инженерия, экономика, педагогика, психоло
 <div class="card school">
 
 <h3>
-Тираспольский институт сельского хозяйства
-</h3>
-
-<small>
-Тирасполь
-</small>
-
-<p>
-Аграрные и сельскохозяйственные направления.
-</p>
-
-</div>
-
-
-<div class="card school">
-
-<h3>
-Бендерский высший художественный колледж
-</h3>
-
-<small>
-Бендеры
-</small>
-
-<p>
-Художественные и творческие направления.
-</p>
-
-</div>
-
-
-<div class="card school">
-
-<h3>
 Тираспольский техникум информатики и права
 </h3>
 
@@ -940,7 +1054,8 @@ IT, инженерия, экономика, педагогика, психоло
 </small>
 
 <p>
-Информатика, цифровые технологии и правовые направления СПО.
+Информатика, цифровые технологии
+и правовые направления СПО.
 </p>
 
 </div>
@@ -981,6 +1096,23 @@ IT, инженерия, экономика, педагогика, психоло
 </div>
 
 
+<div class="card school">
+
+<h3>
+Бендерский высший художественный колледж
+</h3>
+
+<small>
+Бендеры
+</small>
+
+<p>
+Художественные и творческие направления.
+</p>
+
+</div>
+
+
 </div>
 
 
@@ -988,9 +1120,9 @@ IT, инженерия, экономика, педагогика, психоло
 
 <b>Важно:</b>
 
-список образовательных организаций и программы
-приёма могут изменяться. Перед поступлением
-проверяй актуальную информацию.
+список образовательных организаций
+и программы приёма могут изменяться.
+Перед поступлением проверяй актуальную информацию.
 
 </div>
 
@@ -1007,7 +1139,8 @@ IT, инженерия, экономика, педагогика, психоло
 
 <p class="sub">
 
-Формат работы тоже важен при выборе профессионального пути.
+Современный рынок труда включает как традиционные,
+так и цифровые форматы занятости.
 
 </p>
 
@@ -1024,9 +1157,12 @@ IT, инженерия, экономика, педагогика, психоло
 </h3>
 
 <p>
-Работа оператором колл-центра развивает коммуникацию,
-клиентский сервис и навыки продаж. Для многих молодых
-людей это может стать первым опытом работы.
+
+Работа оператором колл-центра развивает
+коммуникацию, клиентский сервис и навыки продаж.
+Для молодежи это может стать одним из вариантов
+получения первого опыта работы.
+
 </p>
 
 </div>
@@ -1041,8 +1177,10 @@ IT, инженерия, экономика, педагогика, психоло
 </h3>
 
 <p>
+
 Позволяет работать с проектами и клиентами
 из других регионов, находясь в ПМР.
+
 </p>
 
 </div>
@@ -1057,8 +1195,10 @@ IT, инженерия, экономика, педагогика, психоло
 </h3>
 
 <p>
+
 Компьютерная грамотность, работа с данными
 и цифровыми сервисами полезны во многих профессиях.
+
 </p>
 
 </div>
@@ -1069,7 +1209,7 @@ IT, инженерия, экономика, педагогика, психоло
 </section>
 
 
-<!-- ПЕРСПЕКТИВНЫЕ ПРОФЕССИИ -->
+<!-- ПЕРСПЕКТИВЫ -->
 
 <section>
 
@@ -1106,11 +1246,12 @@ IT и цифровизация
 </td>
 
 <td>
-Технологии распространяются во всех сферах
+Технологии используются во многих сферах
 </td>
 
 <td>
-Логика, программирование, цифровая грамотность
+Логика, программирование,
+цифровая грамотность
 </td>
 
 </tr>
@@ -1123,7 +1264,7 @@ IT и цифровизация
 </td>
 
 <td>
-Производству нужны технические кадры
+Производству нужны технические специалисты
 </td>
 
 <td>
@@ -1140,11 +1281,12 @@ IT и цифровизация
 </td>
 
 <td>
-Постоянная потребность общества
+Обществу постоянно нужны медицинские специалисты
 </td>
 
 <td>
-Биология, ответственность, коммуникация
+Биология, ответственность,
+коммуникация
 </td>
 
 </tr>
@@ -1157,11 +1299,12 @@ IT и цифровизация
 </td>
 
 <td>
-Нужны специалисты для подготовки новых поколений
+Необходимость подготовки новых поколений
 </td>
 
 <td>
-Знания, коммуникация, цифровые инструменты
+Знания, коммуникация,
+цифровые инструменты
 </td>
 
 </tr>
@@ -1178,11 +1321,11 @@ IT и цифровизация
 </td>
 
 <td>
-Профильная подготовка и технологии
+Профессиональная подготовка
+и современные технологии
 </td>
 
 </tr>
-
 
 </table>
 
@@ -1201,45 +1344,68 @@ IT и цифровизация
 
 <p class="sub">
 
-После проведения анкеты сюда можно добавить реальные
-результаты исследования молодежи ПМР.
+Результаты прохождения теста автоматически
+сохраняются в базе исследования.
 
 </p>
 
 
 <div class="note">
 
-<b>Алгоритм исследования:</b>
+<b>Как работает исследование:</b>
 
 <br><br>
 
-Анкета → обработка ответов → диаграммы →
-сравнение предпочтений молодежи с востребованными
-профессиями → выводы.
+Участник указывает город и возраст →
+проходит профориентационный тест →
+получает индивидуальный результат →
+данные автоматически попадают в Google Таблицу.
+
+<br><br>
+
+После накопления ответов данные можно использовать
+для построения диаграмм и анализа профессиональных
+предпочтений молодежи ПМР.
 
 </div>
 
 </section>
+
 
 </main>
 
 
 <footer>
 
-PROF-ПМР · Профориентационный навигатор · Исследовательский проект 2026
+PROF-ПМР · Профориентационный навигатор ·
+Исследовательский проект 2026
 
 </footer>
 
 
 <script>
 
-const questions = document.querySelectorAll(".q");
 
-const bar = document.getElementById("bar");
+/* ССЫЛКА НА GOOGLE APPS SCRIPT */
 
-const result = document.getElementById("result");
+const SCRIPT_URL =
+"https://script.google.com/macros/s/AKfycbyKfPwhCG6DoCtTZrT1zwg6Mo01lh1PIBOij28PN41mNXUXtq7w0CK31OAdsenKh136/exec";
+
+
+/* ВОПРОСЫ */
+
+const questions =
+document.querySelectorAll(".q");
+
+const bar =
+document.getElementById("bar");
+
+const result =
+document.getElementById("result");
+
 
 let current = 0;
+
 
 let scores = {
 
@@ -1253,6 +1419,17 @@ practical: 0
 
 };
 
+
+let participant = {
+
+city: "",
+
+age: ""
+
+};
+
+
+/* ИНФОРМАЦИЯ О НАПРАВЛЕНИЯХ */
 
 const info = {
 
@@ -1276,7 +1453,7 @@ jobs: [
 
 edu:
 
-"Физико-технические и IT-направления ПГУ; Тираспольский техникум информатики и права; Днестровский техникум энергетики и компьютерных технологий."
+"ПГУ им. Т. Г. Шевченко; Тираспольский техникум информатики и права; Днестровский техникум энергетики и компьютерных технологий."
 
 },
 
@@ -1293,7 +1470,7 @@ jobs: [
 
 "Менеджер",
 
-"Специалист по клиентскому сервису",
+"Специалист клиентского сервиса",
 
 "Оператор колл-центра"
 
@@ -1301,7 +1478,7 @@ jobs: [
 
 edu:
 
-"Педагогические и психологические направления и Медицинский институт ПГУ; Бендерский педагогический колледж."
+"ПГУ им. Т. Г. Шевченко; Бендерский педагогический колледж."
 
 },
 
@@ -1351,35 +1528,98 @@ jobs: [
 
 edu:
 
-"Инженерно-технические направления ПГУ; Днестровский техникум энергетики и компьютерных технологий; профильные организации СПО ПМР."
+"ПГУ им. Т. Г. Шевченко; Днестровский техникум энергетики и компьютерных технологий."
 
 }
 
 };
 
 
-function ans(type) {
+/* НАЧАЛО ТЕСТА */
+
+function startTest() {
+
+
+const city =
+document.getElementById("city").value;
+
+
+const age =
+document.getElementById("age").value;
+
+
+if (!city) {
+
+alert("Пожалуйста, выбери город.");
+
+return;
+
+}
+
+
+if (!age) {
+
+alert("Пожалуйста, укажи возраст.");
+
+return;
+
+}
+
+
+participant.city = city;
+
+participant.age = age;
+
+
+document.querySelector(".form-card").style.display =
+"none";
+
+
+document.getElementById("quiz").style.display =
+"block";
+
+
+document.getElementById("quiz").scrollIntoView({
+
+behavior: "smooth"
+
+});
+
+}
+
+
+/* ОТВЕТ НА ВОПРОС */
+
+function answer(type) {
+
 
 scores[type]++;
 
+
 questions[current].classList.remove("active");
+
 
 current++;
 
 
 if (current < questions.length) {
 
+
 questions[current].classList.add("active");
+
 
 bar.style.width =
 
 (current / questions.length * 100) + "%";
 
+
 }
 
 else {
 
+
 bar.style.width = "100%";
+
 
 showResult();
 
@@ -1388,7 +1628,10 @@ showResult();
 }
 
 
+/* ПОКАЗ РЕЗУЛЬТАТА */
+
 function showResult() {
+
 
 let total =
 
@@ -1412,18 +1655,19 @@ Object.keys(scores).sort(
 
 let html = `
 
-<h2>Твой профиль</h2>
+<h2>
+🎉 Твой результат
+</h2>
 
 <p>
-
-<b>Процентное соотношение:</b>
-
+Процентное соотношение направлений:
 </p>
 
 `;
 
 
 order.forEach(key => {
+
 
 let percent =
 
@@ -1441,15 +1685,11 @@ html += `
 <div class="percent-top">
 
 <span>
-
 ${info[key].name}
-
 </span>
 
 <span>
-
 ${percent}%
-
 </span>
 
 </div>
@@ -1457,11 +1697,8 @@ ${percent}%
 <div class="track">
 
 <div
-
 class="fill"
-
 style="width:${percent}%">
-
 </div>
 
 </div>
@@ -1473,7 +1710,8 @@ style="width:${percent}%">
 });
 
 
-let best = order[0];
+const best =
+order[0];
 
 
 html += `
@@ -1482,45 +1720,60 @@ html += `
 
 <h3>
 
-🏆 Больше всего тебе подходит:
+🏆 Тебе больше всего подходит:
 
 ${info[best].name}
 
 </h3>
 
+
 <p>
-
 <b>Возможные профессии:</b>
-
 </p>
+
 
 ${info[best].jobs.map(
 
-job => `<span class="tag">${job}</span>`
+job =>
+
+`<span class="tag">${job}</span>`
 
 ).join("")}
 
+
 <p>
 
-<b>Где можно учиться в ПМР:</b>
+<b>Где можно учиться:</b>
+
+<br>
 
 ${info[best].edu}
 
 </p>
 
+
 <p style="color:#697080;font-size:14px">
 
-Результат является ориентиром, а не профессиональной
-диагностикой. При выборе профессии учитывай свои
-интересы, способности, условия труда и возможности
-получения образования.
+Результат является ориентиром,
+а не профессиональной диагностикой.
 
 </p>
+
+
+<button
+class="btn primary"
+onclick="saveResult('${best}')">
+
+Сохранить результат в исследовании
+
+</button>
 
 `;
 
 
-result.innerHTML = html;
+result.innerHTML =
+html;
+
 
 result.classList.add("show");
 
@@ -1534,6 +1787,95 @@ block: "nearest"
 });
 
 }
+
+
+/* СОХРАНЕНИЕ В GOOGLE ТАБЛИЦУ */
+
+function saveResult(best) {
+
+
+const total =
+
+Object.values(scores).reduce(
+
+(a,b) => a + b,
+
+0
+
+);
+
+
+const data = {
+
+
+city: participant.city,
+
+age: participant.age,
+
+
+tech:
+
+Math.round(scores.tech / total * 100),
+
+
+people:
+
+Math.round(scores.people / total * 100),
+
+
+creative:
+
+Math.round(scores.creative / total * 100),
+
+
+practical:
+
+Math.round(scores.practical / total * 100),
+
+
+mainDirection:
+
+info[best].name,
+
+
+workInPMR:
+
+"Не указано"
+
+};
+
+
+fetch(SCRIPT_URL, {
+
+method: "POST",
+
+mode: "no-cors",
+
+headers: {
+
+"Content-Type":
+"text/plain;charset=utf-8"
+
+},
+
+body: JSON.stringify(data)
+
+});
+
+
+result.innerHTML += `
+
+<div class="success">
+
+✅ Результат сохранён.
+Спасибо за участие в исследовании!
+
+</div>
+
+`;
+
+}
+
 
 </script>
 
