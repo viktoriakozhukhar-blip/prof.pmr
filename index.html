@@ -823,6 +823,151 @@ id="bar">
 
 </div>
 
+<!-- ИССЛЕДОВАТЕЛЬСКАЯ АНКЕТА -->
+
+<div id="researchQuestions" style="display:none;">
+
+<h2 style="margin-top:35px;">
+📋 Небольшая анкета
+</h2>
+
+<p style="color:#697080;">
+Эти ответы используются только в обобщённой статистике исследования.
+</p>
+
+
+<div class="form-group">
+
+<label>
+1. Что для тебя главное при выборе профессии?
+</label>
+
+<select id="mainFactor">
+
+<option value="">Выбери вариант</option>
+
+<option>Высокая зарплата</option>
+
+<option>Интерес к работе</option>
+
+<option>Стабильность</option>
+
+<option>Престиж профессии</option>
+
+<option>Возможность работать удалённо</option>
+
+<option>Карьерный рост</option>
+
+</select>
+
+</div>
+
+
+<div class="form-group">
+
+<label>
+2. Где ты хотел(а) бы работать?
+</label>
+
+<select id="workPlace">
+
+<option value="">Выбери вариант</option>
+
+<option>В ПМР</option>
+
+<option>В другой стране</option>
+
+<option>Удалённо на зарубежную компанию</option>
+
+<option>Пока не знаю</option>
+
+</select>
+
+</div>
+
+
+<div class="form-group">
+
+<label>
+3. Планируешь ли ты получать высшее образование?
+</label>
+
+<select id="higherEducation">
+
+<option value="">Выбери вариант</option>
+
+<option>Да</option>
+
+<option>Нет</option>
+
+<option>Пока не знаю</option>
+
+</select>
+
+</div>
+
+
+<div class="form-group">
+
+<label>
+4. Насколько ты считаешь профессии в ПМР перспективными?
+</label>
+
+<select id="pmrPerspective">
+
+<option value="">Выбери вариант</option>
+
+<option>Очень перспективными</option>
+
+<option>Скорее перспективными</option>
+
+<option>Скорее неперспективными</option>
+
+<option>Совсем неперспективными</option>
+
+<option>Не знаю</option>
+
+</select>
+
+</div>
+
+
+<div class="form-group">
+
+<label>
+5. Что сильнее всего влияет на твой выбор профессии?
+</label>
+
+<select id="influence">
+
+<option value="">Выбери вариант</option>
+
+<option>Мои собственные интересы</option>
+
+<option>Родители</option>
+
+<option>Друзья</option>
+
+<option>Уровень зарплаты</option>
+
+<option>Востребованность профессии</option>
+
+<option>Социальные сети и интернет</option>
+
+</select>
+
+</div>
+
+
+<button
+class="btn primary"
+onclick="finishResearch()">
+
+Завершить исследование →
+
+</button>
+
+</div>
 
 <div
 class="result"
@@ -1583,7 +1728,7 @@ PROF-ПМР · Профориентационный навигатор ·
 /* ССЫЛКА НА GOOGLE APPS SCRIPT */
 
 const SCRIPT_URL =
-"https://script.google.com/macros/s/AKfycbyKfPwhCG6DoCtTZrT1zwg6Mo01lh1PIBOij28PN41mNXUXtq7w0CK31OAdsenKh136/exec";
+"https://script.google.com/macros/s/AKfycbzRqWCt51WLS5ptxfJFDtZQJ_J4qAR0fkAauCj641M7fZJLG6LQc6cnRQDmCxe4Hdom/exec";
 
 
 /* ВОПРОСЫ */
@@ -1815,7 +1960,11 @@ else {
 bar.style.width = "100%";
 
 
-showResult();
+document.getElementById("researchQuestions").style.display = "block";
+
+document.getElementById("researchQuestions").scrollIntoView({
+     behavior: "smooth"
+});
 
 }
 
@@ -1825,6 +1974,7 @@ showResult();
 /* ПОКАЗ РЕЗУЛЬТАТА */
 
 function showResult() {
+    document.getElementById("researchQuestions").style.display = "block";
 
 
 let total =
@@ -2001,40 +2151,42 @@ Object.values(scores).reduce(
 
 const data = {
 
+    city: participant.city,
 
-city: participant.city,
+    age: participant.age,
 
-age: participant.age,
+    tech:
+        Math.round(scores.tech / total * 100),
 
+    people:
+        Math.round(scores.people / total * 100),
 
-tech:
+    creative:
+        Math.round(scores.creative / total * 100),
 
-Math.round(scores.tech / total * 100),
+    practical:
+        Math.round(scores.practical / total * 100),
 
+    mainDirection:
+        info[best].name,
 
-people:
+    workInPMR:
+        participant.workPlace || "",
 
-Math.round(scores.people / total * 100),
+    mainFactor:
+        participant.mainFactor || "",
 
+    workPlace:
+        participant.workPlace || "",
 
-creative:
+    higherEducation:
+        participant.higherEducation || "",
 
-Math.round(scores.creative / total * 100),
+    pmrPerspective:
+        participant.pmrPerspective || "",
 
-
-practical:
-
-Math.round(scores.practical / total * 100),
-
-
-mainDirection:
-
-info[best].name,
-
-
-workInPMR:
-
-"Не указано"
+    influence:
+        participant.influence || ""
 
 };
 
@@ -2075,7 +2227,7 @@ result.innerHTML += `
 ========================= */
 
 const STATISTICS_URL =
-"https://script.google.com/macros/s/AKfycbx0aO3IlXhiyJenS1mdh3TGrFLyKKRliUih3o3-WAsTadGqHcnMCUBASpab9uaGDAYy/exec";
+"https://script.google.com/macros/s/AKfycbzRqWCt51WLS5ptxfJFDtZQJ_J4qAR0fkAauCj641M7fZJLG6LQc6cnRQDmCxe4Hdom/exec";
 
 
 async function loadStatistics() {
@@ -2270,7 +2422,49 @@ async function loadStatistics() {
 
 loadStatistics();
 
+function finishResearch() {
 
+    const mainFactor =
+        document.getElementById("mainFactor").value;
+
+    const workPlace =
+        document.getElementById("workPlace").value;
+
+    const higherEducation =
+        document.getElementById("higherEducation").value;
+
+    const pmrPerspective =
+        document.getElementById("pmrPerspective").value;
+
+    const influence =
+        document.getElementById("influence").value;
+
+
+    if (
+        !mainFactor ||
+        !workPlace ||
+        !higherEducation ||
+        !pmrPerspective ||
+        !influence
+    ) {
+
+        alert("Пожалуйста, ответь на все вопросы.");
+
+        return;
+
+    }
+
+
+    participant.mainFactor = mainFactor;
+    participant.workPlace = workPlace;
+    participant.higherEducation = higherEducation;
+    participant.pmrPerspective = pmrPerspective;
+    participant.influence = influence;
+
+
+    showResult();
+
+}
 
 </script>
 
