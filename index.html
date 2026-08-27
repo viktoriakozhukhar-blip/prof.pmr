@@ -1333,6 +1333,200 @@ IT и цифровизация
 
 </section>
 
+    <!-- СТАТИСТИКА ИССЛЕДОВАНИЯ -->
+
+<section id="statistics">
+
+<h2>
+📊 Статистика исследования
+</h2>
+
+<p class="sub">
+Результаты участников профориентационного исследования
+молодежи Приднестровья.
+</p>
+
+<div class="grid">
+
+<div class="card">
+
+<div class="icon">👥</div>
+
+<h3>
+Участников
+</h3>
+
+<div
+id="participants"
+style="font-size:42px;font-weight:800;color:#5b5ce2;">
+—
+</div>
+
+</div>
+
+
+<div class="card">
+
+<div class="icon">🏆</div>
+
+<h3>
+Самое популярное направление
+</h3>
+
+<div
+id="popular"
+style="font-size:20px;font-weight:800;">
+—
+</div>
+
+</div>
+
+
+<div class="card">
+
+<div class="icon">🏙️</div>
+
+<h3>
+Городов
+</h3>
+
+<div
+id="citiesCount"
+style="font-size:42px;font-weight:800;color:#5b5ce2;">
+—
+</div>
+
+</div>
+
+</div>
+
+
+<div
+class="form-card"
+style="margin-top:20px;">
+
+<h3>
+Профессиональные направления
+</h3>
+
+
+<div class="percent-row">
+
+<div class="percent-top">
+
+<span>💻 IT и технологии</span>
+
+<span id="statTech">—</span>
+
+</div>
+
+<div class="track">
+
+<div
+class="fill"
+id="fillTech"
+style="width:0%">
+</div>
+
+</div>
+
+</div>
+
+
+<div class="percent-row">
+
+<div class="percent-top">
+
+<span>🤝 Работа с людьми</span>
+
+<span id="statPeople">—</span>
+
+</div>
+
+<div class="track">
+
+<div
+class="fill"
+id="fillPeople"
+style="width:0%">
+</div>
+
+</div>
+
+</div>
+
+
+<div class="percent-row">
+
+<div class="percent-top">
+
+<span>🎨 Творческие направления</span>
+
+<span id="statCreative">—</span>
+
+</div>
+
+<div class="track">
+
+<div
+class="fill"
+id="fillCreative"
+style="width:0%">
+</div>
+
+</div>
+
+</div>
+
+
+<div class="percent-row">
+
+<div class="percent-top">
+
+<span>🔧 Технические профессии</span>
+
+<span id="statPractical">—</span>
+
+</div>
+
+<div class="track">
+
+<div
+class="fill"
+id="fillPractical"
+style="width:0%">
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+
+<div class="form-card">
+
+<h3>
+🏙️ Участники по городам
+</h3>
+
+<div id="cityStats">
+Загрузка статистики...
+</div>
+
+</div>
+
+
+<div class="note">
+
+<b>Обновление:</b>
+
+статистика формируется автоматически
+на основе ответов участников исследования.
+
+</div>
+
+</section>
 
 <!-- ИССЛЕДОВАНИЕ -->
 
@@ -1875,6 +2069,207 @@ result.innerHTML += `
 `;
 
 }
+
+/* =========================
+   СТАТИСТИКА ИССЛЕДОВАНИЯ
+========================= */
+
+const STATISTICS_URL =
+"https://script.google.com/macros/s/AKfycbx0aO3IlXhiyJenS1mdh3TGrFLyKKRliUih3o3-WAsTadGqHcnMCUBASpab9uaGDAYy/exec";
+
+
+async function loadStatistics() {
+
+    try {
+
+        const response =
+            await fetch(STATISTICS_URL);
+
+        const data =
+            await response.json();
+
+
+        document.getElementById("participants")
+            .textContent =
+            data.participants;
+
+
+        document.getElementById("statTech")
+            .textContent =
+            data.tech + "%";
+
+
+        document.getElementById("statPeople")
+            .textContent =
+            data.people + "%";
+
+
+        document.getElementById("statCreative")
+            .textContent =
+            data.creative + "%";
+
+
+        document.getElementById("statPractical")
+            .textContent =
+            data.practical + "%";
+
+
+        document.getElementById("fillTech")
+            .style.width =
+            data.tech + "%";
+
+
+        document.getElementById("fillPeople")
+            .style.width =
+            data.people + "%";
+
+
+        document.getElementById("fillCreative")
+            .style.width =
+            data.creative + "%";
+
+
+        document.getElementById("fillPractical")
+            .style.width =
+            data.practical + "%";
+
+
+        /* Определяем самое популярное направление */
+
+        const directions = {
+
+            tech: {
+                name: "💻 IT и технологии",
+                value: data.tech
+            },
+
+            people: {
+                name: "🤝 Работа с людьми",
+                value: data.people
+            },
+
+            creative: {
+                name: "🎨 Творческие направления",
+                value: data.creative
+            },
+
+            practical: {
+                name: "🔧 Технические профессии",
+                value: data.practical
+            }
+
+        };
+
+
+        let popular =
+            Object.values(directions)
+            .sort((a,b) => b.value - a.value)[0];
+
+
+        document.getElementById("popular")
+            .textContent =
+            popular.name +
+            " — " +
+            popular.value +
+            "%";
+
+
+        /* Города */
+
+        const cities =
+            data.cities || {};
+
+
+        const cityNames =
+            Object.keys(cities);
+
+
+        document.getElementById("citiesCount")
+            .textContent =
+            cityNames.length;
+
+
+        let cityHTML = "";
+
+
+        cityNames
+            .sort((a,b) => cities[b] - cities[a])
+            .forEach(city => {
+
+                const count =
+                    cities[city];
+
+
+                const percent =
+                    data.participants
+                    ? Math.round(
+                        count /
+                        data.participants *
+                        100
+                    )
+                    : 0;
+
+
+                cityHTML += `
+
+                <div class="percent-row">
+
+                    <div class="percent-top">
+
+                        <span>
+                        ${city}
+                        </span>
+
+                        <span>
+                        ${count}
+                        </span>
+
+                    </div>
+
+                    <div class="track">
+
+                        <div
+                        class="fill"
+                        style="width:${percent}%">
+                        </div>
+
+                    </div>
+
+                </div>
+
+                `;
+
+            });
+
+
+        document.getElementById("cityStats")
+            .innerHTML =
+            cityHTML ||
+            "Пока нет данных.";
+
+
+    }
+
+    catch(error) {
+
+        console.log(
+            "Ошибка загрузки статистики:",
+            error
+        );
+
+        document.getElementById("participants")
+            .textContent =
+            "—";
+
+    }
+
+}
+
+
+/* Загружаем статистику */
+
+loadStatistics();
+
 
 
 </script>
