@@ -587,7 +587,14 @@ id="bar">
 <button class="answer" onclick="answer('practical')">
 🔧 Работа руками и конкретный результат
 </button>
+<button class="answer" onclick="answer('unknown')">
+🤷 Не знаю
+</button>
 
+<button class="answer" onclick="answer('lazy')">
+😎 Ничего не делать
+</button>
+    
 </div>
 
 </div>
@@ -619,6 +626,14 @@ id="bar">
 
 <button class="answer" onclick="answer('practical')">
 🔨 Починить или собрать что-то
+</button>
+
+<button class="answer" onclick="answer('unknown')">
+🤷 Не знаю
+</button>
+
+<button class="answer" onclick="answer('lazy')">
+🛋️ Лежать на диване
 </button>
 
 </div>
@@ -654,6 +669,14 @@ id="bar">
 ⚙️ Практический результат
 </button>
 
+<button class="answer" onclick="answer('unknown')">
+🤷 Не знаю
+</button>
+
+<button class="answer" onclick="answer('lazy')">
+😴 Высыпаться каждый день
+</button>
+
 </div>
 
 </div>
@@ -687,6 +710,14 @@ id="bar">
 ✅ Выбираю практичный вариант
 </button>
 
+<button class="answer" onclick="answer('unknown')">
+🤷 Не знаю
+</button>
+
+<button class="answer" onclick="answer('lazy')">
+🎮 Играть в компьютер весь день
+</button>
+    
 </div>
 
 </div>
@@ -718,6 +749,14 @@ id="bar">
 
 <button class="answer" onclick="answer('practical')">
 🏗️ На объекте или производстве
+</button>
+
+<button class="answer" onclick="answer('unknown')">
+🤷 Не знаю
+</button>
+
+<button class="answer" onclick="answer('lazy')">
+📱 Листать TikTok бесконечно
 </button>
 
 </div>
@@ -753,6 +792,14 @@ id="bar">
 🛠️ Практические действия
 </button>
 
+<button class="answer" onclick="answer('unknown')">
+🤷 Не знаю
+</button>
+
+<button class="answer" onclick="answer('lazy')">
+🍕 Есть вкусняшки и отдыхать
+</button>
+
 </div>
 
 </div>
@@ -786,6 +833,14 @@ id="bar">
 ⚙️ Использую, если упрощают работу
 </button>
 
+<button class="answer" onclick="answer('unknown')">
+🤷 Не знаю
+</button>
+
+<button class="answer" onclick="answer('lazy')">
+🌴 Жить где-нибудь на море без работы
+</button>
+
 </div>
 
 </div>
@@ -817,6 +872,14 @@ id="bar">
 
 <button class="answer" onclick="answer('practical')">
 🔧 Сделать вещь, которая работает
+</button>
+
+<button class="answer" onclick="answer('unknown')">
+🤷 Не знаю
+</button>
+
+<button class="answer" onclick="answer('lazy')">
+💸 Стать богатым и не работать
 </button>
 
 </div>
@@ -1747,15 +1810,12 @@ let current = 0;
 
 
 let scores = {
-
-tech: 0,
-
-people: 0,
-
-creative: 0,
-
-practical: 0
-
+  tech: 0,
+  people: 0,
+  creative: 0,
+  practical: 0,
+  unknown: 0,
+  lazy: 0
 };
 
 
@@ -1871,6 +1931,18 @@ edu:
 
 }
 
+unknown: {
+  name: "🤷 Не определился",
+  jobs: ["Пока рано выбирать профессию"],
+  edu: "Рекомендуется пройти профориентацию и изучить разные направления."
+},
+
+lazy: {
+  name: "😎 Профессиональный отдыхающий",
+  jobs: ["Главный эксперт по отдыху", "Тестировщик диванов 😂"],
+  edu: "Сначала стоит найти дело, которое действительно будет интересно."
+}
+
 };
 
 
@@ -1978,8 +2050,10 @@ function showResult() {
 
 
 let total =
-
-Object.values(scores).reduce(
+  scores.tech +
+  scores.people +
+  scores.creative +
+  scores.practical;
 
 (a,b) => a + b,
 
@@ -2053,7 +2127,17 @@ style="width:${percent}%">
 
 });
 
-
+// 😎 Пасхалка
+if (scores.lazy >= 5) {
+    result.innerHTML = `
+        <h2>😎 Твой профиль</h2>
+        <h3>Профессиональный отдыхающий</h3>
+        <p>Кажется, твоя идеальная работа — это отсутствие работы 😂</p>
+        <p>Но, возможно, ты просто ещё не нашёл профессию, которая действительно тебя увлечёт.</p>
+    `;
+    result.classList.add("show");
+    return;
+}
 const best =
 order[0];
 
