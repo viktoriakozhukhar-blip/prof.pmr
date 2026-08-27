@@ -1,1 +1,938 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<title>PROF-ПМР — Профориентационный навигатор</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f6f7fb;
+    color: #171827;
+    line-height: 1.6;
+}
+
+header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(255,255,255,0.95);
+    border-bottom: 1px solid #e7e8ef;
+}
+
+nav {
+    max-width: 1100px;
+    margin: auto;
+    padding: 16px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 22px;
+    font-weight: 800;
+}
+
+.logo span {
+    color: #5b5ce2;
+}
+
+nav a {
+    text-decoration: none;
+    color: #333;
+    margin-left: 20px;
+    font-size: 14px;
+}
+
+main {
+    max-width: 1100px;
+    margin: auto;
+    padding: 0 20px;
+}
+
+.hero {
+    min-height: 600px;
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: 40px;
+    align-items: center;
+}
+
+.badge {
+    display: inline-block;
+    background: #e9e9ff;
+    color: #5556d9;
+    padding: 8px 14px;
+    border-radius: 30px;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+h1 {
+    font-size: 68px;
+    line-height: 1;
+    margin: 20px 0;
+    letter-spacing: -3px;
+}
+
+.gradient {
+    color: #5b5ce2;
+}
+
+.lead {
+    color: #686b7c;
+    font-size: 19px;
+    max-width: 650px;
+}
+
+.buttons {
+    margin-top: 30px;
+}
+
+.btn {
+    display: inline-block;
+    padding: 14px 20px;
+    border-radius: 13px;
+    text-decoration: none;
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+.primary {
+    background: #5b5ce2;
+    color: white;
+}
+
+.secondary {
+    background: white;
+    color: #222;
+    border: 1px solid #ddd;
+}
+
+.hero-card {
+    background: white;
+    border-radius: 28px;
+    padding: 35px;
+    box-shadow: 0 15px 40px rgba(30,35,80,0.08);
+}
+
+.hero-card .emoji {
+    font-size: 70px;
+}
+
+.hero-card h2 {
+    margin: 10px 0;
+}
+
+.hero-card p {
+    color: #707282;
+}
+
+section {
+    padding: 70px 0;
+}
+
+section h2 {
+    font-size: 36px;
+    margin-bottom: 10px;
+}
+
+.subtitle {
+    color: #6d7080;
+    max-width: 700px;
+    margin-bottom: 30px;
+}
+
+.cards {
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 18px;
+}
+
+.card {
+    background: white;
+    border: 1px solid #e8e8ef;
+    border-radius: 20px;
+    padding: 25px;
+    box-shadow: 0 8px 25px rgba(30,35,80,0.05);
+}
+
+.card .icon {
+    font-size: 35px;
+}
+
+.card h3 {
+    margin: 10px 0;
+}
+
+.card p {
+    color: #6c6f7e;
+}
+
+.test-box {
+    background: #181a2b;
+    color: white;
+    padding: 30px;
+    border-radius: 25px;
+}
+
+.question {
+    display: none;
+}
+
+.question.active {
+    display: block;
+}
+
+.question h3 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.answers {
+    display: grid;
+    gap: 10px;
+}
+
+.answer {
+    background: #25283d;
+    color: white;
+    border: 1px solid #3b3e55;
+    padding: 15px;
+    border-radius: 12px;
+    text-align: left;
+    cursor: pointer;
+    font-size: 15px;
+}
+
+.answer:hover {
+    border-color: #8a8bf0;
+}
+
+.progress {
+    height: 7px;
+    background: #303348;
+    border-radius: 20px;
+    margin-bottom: 30px;
+}
+
+.progress-bar {
+    height: 100%;
+    width: 0%;
+    background: #7778ed;
+    border-radius: 20px;
+}
+
+.result {
+    display: none;
+    background: white;
+    color: #171827;
+    margin-top: 25px;
+    padding: 25px;
+    border-radius: 18px;
+}
+
+.result.show {
+    display: block;
+}
+
+.tag {
+    display: inline-block;
+    background: #ececff;
+    color: #5556d9;
+    padding: 7px 11px;
+    border-radius: 20px;
+    margin: 4px;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.table-container {
+    overflow-x: auto;
+    background: white;
+    border-radius: 20px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 650px;
+}
+
+th, td {
+    padding: 16px;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+}
+
+th {
+    background: #fafaff;
+    color: #656878;
+}
+
+.note {
+    background: #ededff;
+    border-left: 4px solid #5b5ce2;
+    padding: 18px;
+    border-radius: 10px;
+    margin-top: 20px;
+}
+
+footer {
+    text-align: center;
+    padding: 40px;
+    color: #777;
+    border-top: 1px solid #e5e5e9;
+}
+
+@media(max-width:800px) {
+
+    nav a {
+        display: none;
+    }
+
+    .hero {
+        grid-template-columns: 1fr;
+        padding: 70px 0;
+    }
+
+    h1 {
+        font-size: 48px;
+    }
+
+    .cards {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<nav>
+<div class="logo">PROF<span>-ПМР</span></div>
+
+<div>
+<a href="#test">Тест</a>
+<a href="#jobs">Профессии</a>
+<a href="#future">Будущее</a>
+</div>
+</nav>
+</header>
+
+<main>
+
+<section class="hero">
+
+<div>
+
+<span class="badge">Исследовательский проект · 2026</span>
+
+<h1>
+Найди своё
+<span class="gradient">направление.</span>
+</h1>
+
+<p class="lead">
+Профориентационный навигатор для современной молодежи Приднестровья.
+Узнай больше о профессиях, которые востребованы в ПМР, и попробуй определить подходящие тебе направления.
+</p>
+
+<div class="buttons">
+<a href="#test" class="btn primary">
+Пройти тест →
+</a>
+
+<a href="#jobs" class="btn secondary">
+Профессии ПМР
+</a>
+</div>
+
+</div>
+
+<div class="hero-card">
+
+<div class="emoji">🧭</div>
+
+<h2>Интересы + возможности</h2>
+
+<p>
+Выбор профессии — это не только вопрос «кем я хочу стать».
+Важно учитывать свои способности, интересы и реальные возможности рынка труда.
+</p>
+
+</div>
+
+</section>
+
+
+<section id="test">
+
+<h2>🧠 Профориентационный тест</h2>
+
+<p class="subtitle">
+Ответь на 8 вопросов. Результат поможет определить профессиональные направления, которые могут тебе подойти.
+</p>
+
+<div class="test-box">
+
+<div class="progress">
+<div class="progress-bar" id="progress"></div>
+</div>
+
+
+<div class="question active">
+
+<p>Вопрос 1 из 8</p>
+
+<h3>Что тебе интереснее?</h3>
+
+<div class="answers">
+
+<button class="answer" onclick="answer('tech')">
+💻 Разбираться в компьютерах и технологиях
+</button>
+
+<button class="answer" onclick="answer('people')">
+🤝 Общаться и помогать людям
+</button>
+
+<button class="answer" onclick="answer('creative')">
+🎨 Придумывать и создавать новое
+</button>
+
+<button class="answer" onclick="answer('practical')">
+🔧 Работать руками и видеть результат
+</button>
+
+</div>
+</div>
+
+
+<div class="question">
+
+<p>Вопрос 2 из 8</p>
+
+<h3>Какая задача тебе ближе?</h3>
+
+<div class="answers">
+
+<button class="answer" onclick="answer('tech')">
+🔍 Найти ошибку в системе
+</button>
+
+<button class="answer" onclick="answer('people')">
+🗣️ Объяснить человеку сложную вещь
+</button>
+
+<button class="answer" onclick="answer('creative')">
+💡 Придумать новую идею
+</button>
+
+<button class="answer" onclick="answer('practical')">
+🔨 Починить или собрать что-то
+</button>
+
+</div>
+</div>
+
+
+<div class="question">
+
+<p>Вопрос 3 из 8</p>
+
+<h3>Что важнее в будущей работе?</h3>
+
+<div class="answers">
+
+<button class="answer" onclick="answer('tech')">
+🚀 Развитие и новые технологии
+</button>
+
+<button class="answer" onclick="answer('people')">
+❤️ Работа с людьми
+</button>
+
+<button class="answer" onclick="answer('creative')">
+✨ Свобода творчества
+</button>
+
+<button class="answer" onclick="answer('practical')">
+⚙️ Практический результат
+</button>
+
+</div>
+</div>
+
+
+<div class="question">
+
+<p>Вопрос 4 из 8</p>
+
+<h3>Как ты принимаешь решения?</h3>
+
+<div class="answers">
+
+<button class="answer" onclick="answer('tech')">
+📊 Анализирую факты
+</button>
+
+<button class="answer" onclick="answer('people')">
+👥 Советуюсь с людьми
+</button>
+
+<button class="answer" onclick="answer('creative')">
+🌟 Доверяю интуиции
+</button>
+
+<button class="answer" onclick="answer('practical')">
+✅ Выбираю самый практичный вариант
+</button>
+
+</div>
+</div>
+
+
+<div class="question">
+
+<p>Вопрос 5 из 8</p>
+
+<h3>Где тебе было бы комфортнее работать?</h3>
+
+<div class="answers">
+
+<button class="answer" onclick="answer('tech')">
+🖥️ За компьютером
+</button>
+
+<button class="answer" onclick="answer('people')">
+👨‍👩‍👧 В коллективе
+</button>
+
+<button class="answer" onclick="answer('creative')">
+🎨 В творческой среде
+</button>
+
+<button class="answer" onclick="answer('practical')">
+🏗️ На производстве или объекте
+</button>
+
+</div>
+</div>
+
+
+<div class="question">
+
+<p>Вопрос 6 из 8</p>
+
+<h3>Что тебе легче даётся?</h3>
+
+<div class="answers">
+
+<button class="answer" onclick="answer('tech')">
+🧠 Логика
+</button>
+
+<button class="answer" onclick="answer('people')">
+💬 Общение
+</button>
+
+<button class="answer" onclick="answer('creative')">
+🎭 Воображение
+</button>
+
+<button class="answer" onclick="answer('practical')">
+🛠️ Практические действия
+</button>
+
+</div>
+</div>
+
+
+<div class="question">
+
+<p>Вопрос 7 из 8</p>
+
+<h3>Как ты относишься к новым технологиям?</h3>
+
+<div class="answers">
+
+<button class="answer" onclick="answer('tech')">
+🔥 Хочу постоянно их изучать
+</button>
+
+<button class="answer" onclick="answer('people')">
+👍 Использую, если они помогают людям
+</button>
+
+<button class="answer" onclick="answer('creative')">
+🎨 Использую для творчества
+</button>
+
+<button class="answer" onclick="answer('practical')">
+⚙️ Использую, если они упрощают работу
+</button>
+
+</div>
+</div>
+
+
+<div class="question">
+
+<p>Вопрос 8 из 8</p>
+
+<h3>Что принесло бы больше удовлетворения?</h3>
+
+<div class="answers">
+
+<button class="answer" onclick="answer('tech')">
+💻 Создать работающую систему
+</button>
+
+<button class="answer" onclick="answer('people')">
+❤️ Понять, что я кому-то помог
+</button>
+
+<button class="answer" onclick="answer('creative')">
+🎨 Воплотить свою идею
+</button>
+
+<button class="answer" onclick="answer('practical')">
+🔧 Сделать вещь, которая работает
+</button>
+
+</div>
+</div>
+
+
+<div id="result" class="result"></div>
+
+</div>
+</section>
+
+
+<section id="jobs">
+
+<h2>🇵🇲 Востребованные профессии в ПМР</h2>
+
+<p class="subtitle">
+Анализ вакансий показывает потребность как в квалифицированных рабочих, так и в специалистах с профессиональным образованием.
+</p>
+
+<div class="cards">
+
+<div class="card">
+<div class="icon">⚙️</div>
+<h3>Инженерия и техника</h3>
+<p>
+Инженеры, электрики, электромонтажники, слесари, наладчики и специалисты по автоматизации.
+</p>
+</div>
+
+<div class="card">
+<div class="icon">🏥</div>
+<h3>Медицина</h3>
+<p>
+Врачи, медицинские сестры и другие специалисты сферы здравоохранения.
+</p>
+</div>
+
+<div class="card">
+<div class="icon">📚</div>
+<h3>Образование</h3>
+<p>
+Учителя и специалисты, работающие с детьми и молодежью.
+</p>
+</div>
+
+<div class="card">
+<div class="icon">💻</div>
+<h3>IT</h3>
+<p>
+Программисты, системные администраторы, специалисты технической поддержки и IT-проектов.
+</p>
+</div>
+
+<div class="card">
+<div class="icon">🏗️</div>
+<h3>Строительство</h3>
+<p>
+Строители, мастера, электромонтажники и другие специалисты.
+</p>
+</div>
+
+<div class="card">
+<div class="icon">🚚</div>
+<h3>Транспорт</h3>
+<p>
+Водители, механики и машинисты различной техники.
+</p>
+</div>
+
+</div>
+
+</section>
+
+
+<section>
+
+<h2>☎️ Колл-центры и удалённая работа</h2>
+
+<p class="subtitle">
+В Приднестровье встречаются вакансии операторов колл-центров, менеджеров по работе с клиентами и сотрудников, работающих удалённо.
+</p>
+
+<div class="cards">
+
+<div class="card">
+
+<div class="icon">☎️</div>
+
+<h3>Колл-центр</h3>
+
+<p>
+Хороший вариант для получения первого опыта в общении с клиентами, продажах и сервисе. В некоторых вакансиях предусмотрено обучение.
+</p>
+
+</div>
+
+
+<div class="card">
+
+<div class="icon">🏠</div>
+
+<h3>Удалённая работа</h3>
+
+<p>
+Можно находиться в ПМР и работать с клиентами или проектами из других регионов.
+</p>
+
+</div>
+
+
+<div class="card">
+
+<div class="icon">📈</div>
+
+<h3>Карьерный рост</h3>
+
+<p>
+Опыт в клиентском сервисе может стать началом карьеры в продажах, менеджменте или других направлениях.
+</p>
+
+</div>
+
+</div>
+
+</section>
+
+
+<section id="future">
+
+<h2>🔮 Перспективные направления</h2>
+
+<p class="subtitle">
+В будущем особенно важным станет сочетание профессиональных знаний с цифровыми навыками.
+</p>
+
+<div class="table-container">
+
+<table>
+
+<tr>
+<th>Направление</th>
+<th>Почему перспективно</th>
+<th>Что развивать</th>
+</tr>
+
+<tr>
+<td>💻 IT</td>
+<td>Цифровые технологии используются всё шире</td>
+<td>Программирование, логика, цифровая грамотность</td>
+</tr>
+
+<tr>
+<td>⚙️ Инженерия</td>
+<td>Производству нужны технические специалисты</td>
+<td>Математика, физика, автоматизация</td>
+</tr>
+
+<tr>
+<td>🏥 Медицина</td>
+<td>Постоянная потребность общества</td>
+<td>Биология, ответственность, коммуникация</td>
+</tr>
+
+<tr>
+<td>📚 Образование</td>
+<td>Всегда нужны специалисты для обучения новых поколений</td>
+<td>Предметные знания и коммуникация</td>
+</tr>
+
+<tr>
+<td>☎️ Клиентский сервис</td>
+<td>Развиваются дистанционные форматы</td>
+<td>Коммуникация, продажи, цифровые инструменты</td>
+</tr>
+
+<tr>
+<td>🔧 Рабочие профессии</td>
+<td>Сохраняется спрос на практические навыки</td>
+<td>Профессиональная подготовка и технологии</td>
+</tr>
+
+</table>
+
+</div>
+
+<div class="note">
+
+<b>Важно:</b> перспективность профессии не означает гарантированное трудоустройство.
+При выборе специальности необходимо учитывать собственные интересы, способности, образование и актуальные предложения работодателей.
+
+</div>
+
+</section>
+
+
+<section>
+
+<h2>📊 Молодёжь и рынок труда</h2>
+
+<p class="subtitle">
+Этот раздел станет частью практического исследования. После проведения анкетирования сюда можно добавить реальные результаты опроса молодежи Приднестровья и сравнить их с потребностями рынка труда.
+</p>
+
+<div class="note">
+
+<b>Следующий этап исследования:</b><br><br>
+
+Провести анкетирование школьников и молодежи ПМР → обработать результаты → построить диаграммы → сравнить профессиональные предпочтения молодежи с востребованными профессиями.
+
+</div>
+
+</section>
+
+
+<section>
+
+<h2>О проекте</h2>
+
+<p class="subtitle">
+
+«PROF-ПМР» — практический продукт исследовательской работы
+«Профориентационные предпочтения современной молодежи Приднестровья».
+
+Сайт создан для того, чтобы помочь молодежи обратить внимание не только на популярность профессии, но и на собственные способности, интересы и реальные возможности рынка труда.
+
+</p>
+
+</section>
+
+</main>
+
+
+<footer>
+
+PROF-ПМР · Исследовательский проект · 2026
+
+</footer>
+
+
+<script>
+
+let currentQuestion = 0;
+
+let scores = {
+    tech: 0,
+    people: 0,
+    creative: 0,
+    practical: 0
+};
+
+const questions = document.querySelectorAll(".question");
+
+function answer(type) {
+
+    scores[type]++;
+
+    questions[currentQuestion].classList.remove("active");
+
+    currentQuestion++;
+
+    if (currentQuestion < questions.length) {
+
+        questions[currentQuestion].classList.add("active");
+
+        document.getElementById("progress").style.width =
+        (currentQuestion / questions.length * 100) + "%";
+
+    } else {
+
+        document.getElementById("progress").style.width = "100%";
+
+        showResult();
+
+    }
+}
+
+
+function showResult() {
+
+    let best = Object.keys(scores).sort(function(a,b) {
+        return scores[b] - scores[a];
+    })[0];
+
+    let results = {
+
+        tech: {
+            title: "💻 Технологии и IT",
+            text: "Тебе могут подойти IT, программирование, системное администрирование, цифровые технологии и аналитика."
+        },
+
+        people: {
+            title: "🤝 Работа с людьми",
+            text: "Тебе могут подойти медицина, образование, психология, менеджмент, продажи и клиентский сервис."
+        },
+
+        creative: {
+            title: "🎨 Творческие направления",
+            text: "Тебе могут подойти дизайн, маркетинг, создание контента, реклама и другие творческие направления."
+        },
+
+        practical: {
+            title: "🔧 Технические и рабочие профессии",
+            text: "Тебе могут подойти строительство, энергетика, производство, ремонт, механика и инженерно-технические направления."
+        }
+
+    };
+
+    document.getElementById("result").innerHTML =
+
+        "<h2>Твоё направление</h2>" +
+
+        "<h3>" + results[best].title + "</h3>" +
+
+        "<p>" + results[best].text + "</p>" +
+
+        "<br>" +
+
+        "<p><b>Помни:</b> этот тест является ориентиром, а не окончательным решением. При выборе профессии учитывай свои интересы, способности и реальные возможности.</p>";
+
+    document.getElementById("result").classList.add("show");
+}
+
+</script>
+
+</body>
+</html>
